@@ -1,9 +1,5 @@
 // File description:
 // Implements base class for 3D vector manipulation.
-
-// NOTE / WARNING:
-// This can't be included separately, because it is included by "Math.hpp" header.
-// Error will occur when separated, uses agdk::Math::Tolerance class.
 #pragma once
 
 // Precompiled header:
@@ -13,7 +9,7 @@
 #include "MathHelper.hpp"
 #include "VectorStringBuilder.hpp"
 
-namespace agdk
+namespace edge
 {
 
 template <typename VectorType>

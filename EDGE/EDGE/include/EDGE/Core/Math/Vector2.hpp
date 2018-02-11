@@ -10,7 +10,7 @@
 #include "MathHelper.hpp"
 #include "VectorStringBuilder.hpp"
 
-namespace agdk
+namespace edge
 {
 
 template <typename VectorType>

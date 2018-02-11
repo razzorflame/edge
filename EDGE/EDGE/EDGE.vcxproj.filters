@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\EDGE">
+      <UniqueIdentifier>{0b0cdd2e-4a52-4d80-983f-21543c69c13d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EDGE\Core">
+      <UniqueIdentifier>{49dfb7f9-7c9e-443e-93a6-7f2e7698e168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EDGE\Core\Math">
+      <UniqueIdentifier>{c2a93a42-deeb-4905-998e-8e6c4b5b7397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EDGE\Compilation">
+      <UniqueIdentifier>{274a9b1a-8ed9-4099-a96e-ce35cc45234b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -21,16 +33,39 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\EDGE\Compilation\PrecompiledHeader.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\EDGE\Core\Math\VectorStringBuilder.hpp">
+      <Filter>Header Files\EDGE\Core\Math</Filter>
     </ClInclude>
     <ClInclude Include="include\EDGE\Compilation\API.hpp">
+      <Filter>Header Files\EDGE\Compilation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Math.hpp">
+      <Filter>Header Files\EDGE\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Compilation\PrecompiledHeader.hpp">
+      <Filter>Header Files\EDGE\Compilation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Compilation\SFML.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Math\MathHelper.hpp">
+      <Filter>Header Files\EDGE\Core\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\EDGE\Core\Math\Length.hpp">
+      <Filter>Header Files\EDGE\Core\Math</Filter>
+    </None>
+    <None Include="include\EDGE\Core\Math\Vector2.hpp">
+      <Filter>Header Files\EDGE\Core\Math</Filter>
+    </None>
+    <None Include="include\EDGE\Core\Math\Vector3.hpp">
+      <Filter>Header Files\EDGE\Core\Math</Filter>
+    </None>
   </ItemGroup>
 </Project>

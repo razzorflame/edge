@@ -10,7 +10,8 @@ The following list contains information about required dependencies, supported v
 
 |Dependency              |Supported version   |Macro     |Remarks                                        |
 |------------------------|:------------------:|----------|-----------------------------------------------|
-|SFML                    |2.4.2               |SFMLDir   |Generally every version >= than 2.0 should work|  
+|SFML                    |2.4.2               |SFMLDir   |Generally every version >= than 2.0 should work|
+|GLEW                    |2.1.0 (probably)    |GLEWDir   |Not tested yet, latest version should work     |  
 
 ## Where can I configure dependency macros?
 

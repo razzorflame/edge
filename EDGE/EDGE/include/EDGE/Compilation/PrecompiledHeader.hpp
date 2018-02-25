@@ -4,7 +4,7 @@
 
 #pragma once
 
-// SAMPGDK library
+// Engine dependencies
 #include "SFML.hpp"
 
 // General libraries
@@ -44,6 +44,8 @@
 #include <type_traits>
 #include <cstddef>
 #include <cctype>
+#include <cwctype>
+#include <codecvt>
 
 // Exceptions:
 #include <exception>

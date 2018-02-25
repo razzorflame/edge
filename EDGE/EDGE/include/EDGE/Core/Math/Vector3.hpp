@@ -1,13 +1,16 @@
 // File description:
 // Implements base class for 3D vector manipulation.
+// TODO: implement iterators for Vector3.
+
 #pragma once
 
 // Precompiled header:
 #include EDGE_PCH
 
 // Custom includes:
-#include "MathHelper.hpp"
-#include "VectorStringBuilder.hpp"
+#include <EDGE/Core/TypeTraits.hpp>
+#include <EDGE/Core/Math/MathHelper.hpp>
+#include <EDGE/Core/Math/VectorStringBuilder.hpp>
 
 namespace edge
 {
@@ -140,28 +143,23 @@ class BaseVector3
 {
 	// Performs a type check:
 	// Is only set to true when T is not cv-qualified and is non-boolean arithmetic type.
-	template <typename T>
-	constexpr static bool is_noncvref_mathscalar_v =
-		std::is_same_v<T, std::remove_cv_t< std::remove_reference_t<T> > > &&
-		std::is_arithmetic_v<T> &&
-		!std::is_same_v<T, bool>;
+	template <typename _type>
+	constexpr static bool is_mathscalar_v =
+		is_cvref_v<_type>				&&
+		std::is_arithmetic_v<_type>		&&
+		!std::is_same_v<_type, bool>;
 
 public:
 	using ValueType = VectorType;
 
 	// Allow every non-cv qualified arithmetic type but bool.
 	static_assert(
-		is_noncvref_mathscalar_v<ValueType>,
+		is_mathscalar_v<ValueType>,
 		"ValueType of a vector must be a non-cv qualified scalar type."
 	);
 
-	// This is basic component of a Vector3.
-	union {
-		struct { ValueType x, y, z; };
-		ValueType component[3];	// You can also use it as an array: Vector3::component[0, 1 and 2].
-	};
+	ValueType x, y, z;
 	
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BaseVector3"/> class.
 	/// </summary>
@@ -186,10 +184,16 @@ public:
 	/// </summary>
 	/// <param name="rhs_">The other vector.</param>
 	constexpr BaseVector3(BaseVector3<ValueType> const &rhs_)
-		: x{ rhs_.x },
-		y{ rhs_.y },
-		z{ rhs_.z }
+		: x{ rhs_.x }, y{ rhs_.y }, z{ rhs_.z }
 	{
+	}
+
+	/// <summary>
+	/// Returns number of components contained by this vector.
+	/// </summary>
+	/// <returns>Number of components contained by this vector</returns>
+	constexpr std::size_t size() const {
+		return 3;
 	}
 
 	/// <summary>
@@ -210,7 +214,7 @@ public:
 	/// </summary>
 	/// <returns>Length of the vector.</returns>
 	template <typename LengthType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<LengthType> > >
+		typename = std::enable_if_t< is_mathscalar_v<LengthType> > >
 	LengthType length() const
 	{
 		if constexpr(std::is_same_v<LengthType, ValueType>)
@@ -227,7 +231,7 @@ public:
 	/// </summary>
 	/// <returns>Squared length of the vector.</returns>
 	template <typename LengthType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<LengthType> > >
+		typename = std::enable_if_t< is_mathscalar_v<LengthType> > >
 	constexpr LengthType lengthSquared() const
 	{
 		if constexpr(std::is_same_v<LengthType, ValueType>)
@@ -245,7 +249,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Distance between two instances.</returns>
 	template <typename DistanceType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<DistanceType> > >
+		typename = std::enable_if_t< is_mathscalar_v<DistanceType> > >
 	DistanceType distance(BaseVector3<ValueType> const & other_) const
 	{
 		return (*this - other_).template length<DistanceType>();
@@ -257,7 +261,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Squared distance between two instances.</returns>
 	template <typename DistanceType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<DistanceType> > >
+		typename = std::enable_if_t< is_mathscalar_v<DistanceType> > >
 	constexpr DistanceType distanceSquared(BaseVector3<ValueType> const & other_) const
 	{
 		return (*this - other_).template lengthSquared<DistanceType>();
@@ -269,7 +273,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Dot product of two vectors.</returns>
 	template <typename _DotTy = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<_DotTy> > >
+		typename = std::enable_if_t< is_mathscalar_v<_DotTy> > >
 	constexpr _DotTy dot(BaseVector3<ValueType> const & other_) const
 	{
 		if constexpr(std::is_same_v<_DotTy, ValueType>)
@@ -497,8 +501,13 @@ public:
 	constexpr ValueType& operator[](std::size_t const index_) {
 		// # Assertion note:
 		// You tried to evaluate Vector3[ >= 3], which would cause memory corruption. Fix your code.
-		assert(index_ <= 3);
-		return component[index_];
+		assert(index_ < 3);
+		switch (index_) {
+		case 0: { return x; break; }
+		case 1: { return y; break; }
+		case 2: { return z; break; }
+		default: throw std::out_of_range{ "Vector3 class has 3 components - x (id 0), y (id 1) and z (id 2)!" };
+		}
 	}
 
 	/// <summary>
@@ -509,8 +518,13 @@ public:
 	constexpr ValueType operator[](std::size_t const index_) const {
 		// # Assertion note:
 		// You tried to evaluate Vector3[ >= 3], which would cause memory corruption. Fix your code.
-		assert(index_ <= 3);
-		return component[index_];
+		assert(index_ < 3);
+		switch (index_) {
+		case 0: { return x; break; }
+		case 1: { return y; break; }
+		case 2: { return z; break; }
+		default: throw std::out_of_range{ "Vector3 class has 3 components - x (id 0), y (id 1) and z (id 2)!" };
+		}
 	}
 
 	/// <summary>

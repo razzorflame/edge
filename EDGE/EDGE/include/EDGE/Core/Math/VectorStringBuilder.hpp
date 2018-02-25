@@ -5,13 +5,13 @@
 // Precompiled header:
 #include EDGE_PCH
 
-namespace agdk
+namespace edge
 {
 
 /// <summary>
 /// Contains setup for a string conversion: <see cref="BaseVector2::toString">, and <see cref="BaseVector3::toString">.
 /// </summary>
-struct VectorStringBuilder final
+struct EDGE_API VectorStringBuilder final
 {
 	enum class Wrap {
 		None,

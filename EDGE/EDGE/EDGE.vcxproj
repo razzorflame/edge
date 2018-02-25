@@ -337,13 +337,24 @@
     <ClInclude Include="include\EDGE\Compilation\API.hpp" />
     <ClInclude Include="include\EDGE\Compilation\PrecompiledHeader.hpp" />
     <ClInclude Include="include\EDGE\Compilation\SFML.hpp" />
+    <ClInclude Include="include\EDGE\Core\Color.hpp" />
+    <ClInclude Include="include\EDGE\Core\EventDispatcher.hpp" />
+    <ClInclude Include="include\EDGE\Core\IO\Log.hpp" />
+    <ClInclude Include="include\EDGE\Core\IO\StreamManipulation.hpp" />
     <ClInclude Include="include\EDGE\Core\Math.hpp" />
+    <ClInclude Include="include\EDGE\Core\Color\ColorHelper.hpp" />
+    <ClInclude Include="include\EDGE\Core\Color\ColorSchemeRGBA.hpp" />
+    <ClInclude Include="include\EDGE\Core\NonInstantiable.hpp" />
     <ClInclude Include="include\EDGE\Core\Math\MathHelper.hpp" />
+    <ClInclude Include="include\EDGE\Core\Math\Random.hpp" />
     <ClInclude Include="include\EDGE\Core\Math\VectorStringBuilder.hpp" />
+    <ClInclude Include="include\EDGE\Core\NonCopyable.hpp" />
+    <ClInclude Include="include\EDGE\Core\TypeTraits.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EDGE\Core\Math\Random.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Dynamic|Win32'">Create</PrecompiledHeader>

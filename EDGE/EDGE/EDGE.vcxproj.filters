@@ -51,9 +51,42 @@
     <ClInclude Include="include\EDGE\Core\Math\MathHelper.hpp">
       <Filter>Header Files\EDGE\Core\Math</Filter>
     </ClInclude>
+    <ClInclude Include="include\EDGE\Core\IO\Log.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Math\Random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Color.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\EventDispatcher.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\NonCopyable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\IO\StreamManipulation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\NonInstantiable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\TypeTraits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Color\ColorHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\Color\ColorSchemeRGBA.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EDGE\Core\Math\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

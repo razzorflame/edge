@@ -12,9 +12,19 @@
 		#undef SFML_STATIC
 	#endif
 
-	#ifdef EDGE_ACTIVE_PROJECT
-		#define EDGE_API __declspec(dllexport)
+	#ifdef _MSC_VER
+		#ifdef EDGE_ACTIVE_PROJECT
+			#define EDGE_API __declspec(dllexport)
+		#else
+			#define EDGE_API __declspec(dllimport)
+		#endif
+	#elif defined(__GNUC__)
+		#ifdef EDGE_ACTIVE_PROJECT
+			#define EDGE_API __attribute__((visibility("default")))
+		#else
+			#define EDGE_API
+		#endif	
 	#else
-		#define EDGE_API __declspec(dllimport)
+		#pragma message "Warning: Your compiler does not support exporting / importing symbols from shared library."
 	#endif
 #endif

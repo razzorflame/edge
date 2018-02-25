@@ -1,5 +1,6 @@
 // File description:
 // Implements base class for 2D vector manipulation.
+// TODO: implement vectors.
 
 #pragma once
 
@@ -7,8 +8,9 @@
 #include EDGE_PCH
 
 // Custom includes:
-#include "MathHelper.hpp"
-#include "VectorStringBuilder.hpp"
+#include <EDGE/Core/TypeTraits.hpp>
+#include <EDGE/Core/Math/MathHelper.hpp>
+#include <EDGE/Core/Math/VectorStringBuilder.hpp>
 
 namespace edge
 {
@@ -127,26 +129,22 @@ class BaseVector2
 {
 	// Performs a type check:
 	// Is only set to true when T is not cv-qualified and is non-boolean arithmetic type.
-	template <typename T>
-	constexpr static bool is_noncvref_mathscalar_v =
-		std::is_same_v<T, std::remove_cv_t< std::remove_reference_t<T> > > &&
-		std::is_arithmetic_v<T> &&
-		!std::is_same_v<T, bool>;
+	template <typename _type>
+	constexpr static bool is_mathscalar_v =
+		is_cvref_v<_type>				&&
+		std::is_arithmetic_v<_type>		&&
+		!std::is_same_v<_type, bool>;
 
 public:
 	using ValueType = VectorType;
 
 	// Allow every non-cv qualified arithmetic type but bool.
 	static_assert(
-		is_noncvref_mathscalar_v<ValueType>,
-		"ValueType of a vector must be a non-cv qualified scalar type."
+		is_mathscalar_v<ValueType>,
+		"ValueType of a vector must be a non-cv qualified math scalar type."
 	);
 
-	// This is basic component of a Vector2.
-	union {
-		struct { ValueType x, y; };
-		ValueType component[2];	// You can also use it as an array: Vector2::component[0 and 1].
-	};
+	ValueType x, y;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BaseVector2"/> class.
@@ -171,9 +169,16 @@ public:
 	/// </summary>
 	/// <param name="rhs_">The other vector.</param>
 	constexpr BaseVector2(BaseVector2<ValueType> const &rhs_)
-		: x{ rhs_.x },
-		y{ rhs_.y }
+		: x{ rhs_.x }, y{ rhs_.y }
 	{
+	}
+
+	/// <summary>
+	/// Returns number of components contained by this vector.
+	/// </summary>
+	/// <returns>Number of components contained by this vector</returns>
+	constexpr std::size_t size() const {
+		return 2;
 	}
 			
 	/// <summary>
@@ -192,7 +197,7 @@ public:
 	/// </summary>
 	/// <returns>Length of the vector.</returns>
 	template <typename LengthType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<LengthType> > >
+		typename = std::enable_if_t< is_mathscalar_v<LengthType> > >
 	LengthType length() const
 	{
 		if constexpr(std::is_same_v<LengthType, ValueType>)
@@ -209,7 +214,7 @@ public:
 	/// </summary>
 	/// <returns>Squared length of the vector.</returns>
 	template <typename LengthType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<LengthType> > >
+		typename = std::enable_if_t< is_mathscalar_v<LengthType> > >
 	constexpr LengthType lengthSquared() const
 	{
 		if constexpr(std::is_same_v<LengthType, ValueType>)
@@ -227,7 +232,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Distance between two instances.</returns>
 	template <typename DistanceType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<DistanceType> > >
+		typename = std::enable_if_t< is_mathscalar_v<DistanceType> > >
 	DistanceType distance(BaseVector2<ValueType> const & other_) const
 	{
 		return (*this - other_).template length<DistanceType>();
@@ -239,7 +244,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Squared distance between two instances.</returns>
 	template <typename DistanceType = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<DistanceType> > >
+		typename = std::enable_if_t< is_mathscalar_v<DistanceType> > >
 	constexpr DistanceType distanceSquared(BaseVector2<ValueType> const & other_) const
 	{
 		return (*this - other_).template lengthSquared<DistanceType>();
@@ -251,7 +256,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Dot product of two vectors.</returns>
 	template <typename _DotTy = ValueType,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<_DotTy> > >
+		typename = std::enable_if_t< is_mathscalar_v<_DotTy> > >
 	constexpr _DotTy dot(BaseVector2<ValueType> const & other_) const
 	{
 		if constexpr(std::is_same_v<_DotTy, ValueType>)
@@ -273,7 +278,7 @@ public:
 	/// <param name="other_">The other vector.</param>
 	/// <returns>Cross product of two vectors.</returns>
 	template <typename _CrossTy,
-		typename = std::enable_if_t< is_noncvref_mathscalar_v<_CrossTy> > >
+		typename = std::enable_if_t< is_mathscalar_v<_CrossTy> > >
 	constexpr _CrossTy cross(BaseVector2<ValueType> const & other_) const
 	{
 		if constexpr(std::is_same_v<_CrossTy, ValueType>)
@@ -476,8 +481,12 @@ public:
 	constexpr ValueType& operator[](std::size_t const index_) {
 		// # Assertion note:
 		// You tried to evaluate Vector2[ >= 2], which would cause memory corruption. Fix your code.
-		assert(index_ <= 2);
-		return component[index_];
+		assert(index_ < 2);
+		switch (index_) {
+		case 0: { return x; break; }
+		case 1: { return y; break; }
+		default: throw std::out_of_range{ "Vector2 class has 2 components - x (id 0), y (id 1)!" };
+		}
 	}
 	
 	/// <summary>
@@ -488,8 +497,12 @@ public:
 	constexpr ValueType operator[](std::size_t const index_) const {
 		// # Assertion note:
 		// You tried to evaluate Vector2[ >= 2], which would cause memory corruption. Fix your code.
-		assert(index_ <= 2);
-		return component[index_];
+		assert(index_ < 2);
+		switch (index_) {
+		case 0: { return x; break; }
+		case 1: { return y; break; }
+		default: throw std::out_of_range{ "Vector2 class has 2 components - x (id 0), y (id 1)!" };
+		}
 	}
 
 	/// <summary>

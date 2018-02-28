@@ -1,11 +1,14 @@
-#pragma once
-
 // Includes every header that must be precompiled.
 
 #pragma once
 
+// API preprocessor.
+#include <EDGE/Compilation/API.hpp>
+
 // Engine dependencies
-#include "SFML.hpp"
+#include <EDGE/Compilation/SFML.hpp>
+#include <EDGE/Compilation/OpenGL.hpp>
+
 
 // General libraries
 #include <chrono>

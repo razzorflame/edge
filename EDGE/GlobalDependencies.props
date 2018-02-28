@@ -3,12 +3,17 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <SFMLDir>C:\Users\Pawel\source\repos\edge\EDGE\Dependencies\SFML-2.4.2\</SFMLDir>
+    <GLEWDir>C:\Users\Pawel\source\repos\edge\EDGE\Dependencies\glew-2.1.0\</GLEWDir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
   <ItemGroup>
     <BuildMacro Include="SFMLDir">
       <Value>$(SFMLDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GLEWDir">
+      <Value>$(GLEWDir)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

@@ -70,10 +70,10 @@ private:
 /// <seealso cref="LogInterface" />
 template <typename _valueType>
 class BasicDebugLogInterface
-	: public LogInterface<_valueType>
+	: public BasicLogInterface<_valueType>
 {
 public:
-	using super				= LogInterface<_valueType>;
+	using super				= BasicLogInterface<_valueType>;
 
 	using ValueType			= _valueType;
 	using StringType		= std::basic_string<ValueType>;
@@ -82,7 +82,7 @@ public:
 
 
 	// Default constructor is the same.
-	using LogInterface::LogInterface;
+	using super::BasicLogInterface;
 
 	void pushDebug(StringViewType const message_, bool const flush_ = true)
 	{

@@ -1,15 +1,21 @@
 #pragma once
 
 #ifdef EDGE_STATIC
-	// Make sure SFML is also statically linked.
+	// Make sure SFML and GLEW are also statically linked.
 	#ifndef SFML_STATIC
 		#define SFML_STATIC
 	#endif
+	#ifndef GLEW_STATIC
+		#define GLEW_STATIC
+	#endif
 	#define EDGE_API
 #else
-	// Make sure SFML is also dynamically linked
+	// Make sure SFML and GLEW are also dynamically linked
 	#ifdef SFML_STATIC
 		#undef SFML_STATIC
+	#endif
+	#ifdef GLEW_STATIC
+		#undef GLEW_STATIC
 	#endif
 
 	#ifdef _MSC_VER

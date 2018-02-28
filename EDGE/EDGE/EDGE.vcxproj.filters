@@ -81,6 +81,15 @@
     <ClInclude Include="include\EDGE\Core\Color\ColorSchemeRGBA.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\EDGE\Compilation\OpenGL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Everything.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EDGE\Core\IO.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

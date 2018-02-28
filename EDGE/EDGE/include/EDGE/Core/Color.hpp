@@ -10,11 +10,15 @@
 
 namespace edge
 {	
-template <template <typename _valueType, _valueType mappedMax_> typename scheme_ = ColorSchemeRGBA<std::uint8_t, std::numeric_limits<std::uint8_t>::max()> >
-using Color = scheme_;
+template <
+	template <typename _valueType, _valueType mappedMax_> typename scheme_ = ColorSchemeRGBA,
+		typename _valueType = std::uint8_t,
+		_valueType mappedMax_ = std::numeric_limits<std::uint8_t>::max()
+		>
+using Color = scheme_<_valueType, mappedMax_>;
 
 template <typename _valueType = std::uint8_t, _valueType mappedMax_ = std::numeric_limits<_valueType>::max()>
-using ColorRGBA = Color< ColorSchemeRGBA<_valueType, mappedMax_> >;
+using ColorRGBA = Color< ColorSchemeRGBA, _valueType, mappedMax_ >;
 
 /// <summary>
 /// List of built-in colors.

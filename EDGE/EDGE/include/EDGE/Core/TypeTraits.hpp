@@ -19,27 +19,18 @@ using remove_cvref_t = typename remove_cvref<_type>::type;
 
 template <typename _type, typename = void>
 struct make_widest { using type = _type; };
+template <typename _type,
+	typename = std::enable_if_t< std::is_integral_v<_type> && !std::is_unsigned_v<_type> > >
+struct make_widest { using type = std::intmax_t; };
+template <typename _type,
+	typename = std::enable_if_t< std::is_integral_v<_type> && std::is_unsigned_v<_type> > >
+struct make_widest { using type = std::uintmax_t; };
+template <typename _type,
+	typename = std::enable_if_t< std::is_floating_point_v<_type> > >
+struct make_widest { using type = long double; };
 
 template <typename _type>
-struct make_widest<_type, std::enable_if_t< std::is_integral_v<_type> && !std::is_unsigned_v<_type> > >
-{
-	using type = std::intmax_t;
-};
-
-template <typename _type>
-struct make_widest<_type, std::enable_if_t< std::is_integral_v<_type> && std::is_unsigned_v<_type> > > 
-{
-	using type = std::uintmax_t;
-};
-
-template <typename _type>
-struct make_widest<_type, std::enable_if_t< std::is_floating_point_v<_type> > >
-{
-	using type = long double;
-};
-
-template <typename _type>
-using make_widest_t = typename make_widest<_type>::type;
+using make_widest_t = typename make_widest <_type>::type;
 
 // Check whether type is cv/ref qualified:
 // is_cvref_v<int>			= false

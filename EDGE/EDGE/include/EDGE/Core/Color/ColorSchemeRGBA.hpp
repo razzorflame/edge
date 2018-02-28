@@ -13,10 +13,10 @@ class ColorSchemeRGBA
 {
 	constexpr static std::array<_valueType, 4> fromUint32(std::uint32_t const color_) {
 		return std::array<_valueType, 4>{
-			static_cast<_valueType>( (color_ >> (3 * 8)) * _mappedMax				/ 255),
-			static_cast<_valueType>(((color_ << (1 * 8)) >> (3 * 8)) * _mappedMax	/ 255),
-			static_cast<_valueType>(((color_ << (2 * 8)) >> (3 * 8)) * _mappedMax	/ 255),
-			static_cast<_valueType>(((color_ << (3 * 8)) >> (3 * 8)) * _mappedMax	/ 255)
+			static_cast<_valueType>( (color_ >> (3 * 8)) * _mappedMax)				/ 255,
+			static_cast<_valueType>(((color_ << (1 * 8)) >> (3 * 8)) * _mappedMax)	/ 255,
+			static_cast<_valueType>(((color_ << (2 * 8)) >> (3 * 8)) * _mappedMax)	/ 255,
+			static_cast<_valueType>(((color_ << (3 * 8)) >> (3 * 8)) * _mappedMax)	/ 255
 		};
 	}
 
@@ -44,19 +44,18 @@ public:
 	/// Initializes a new instance of the <see cref="ColorSchemeRGBA{_valueType, _mappedMax}"/> struct.
 	/// </summary>
 	constexpr ColorSchemeRGBA(std::uint32_t const color_)
-		: r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 }
 	{
 		auto channels = fromUint32(color_);
 		for (std::size_t i = 0; i < NumberOfChannels; i++)
-			this->operator[](i) = channels[i];
+			this->operator[i] = channels[i];
 	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ColorSchemeRGBA{_valueType, _mappedMax}"/> struct.
 	/// </summary>
 	constexpr ColorSchemeRGBA(ValueType const r_, ValueType const g_, ValueType const b_, ValueType const a_ = MappedMax)
-		: r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 }
 	{
+		// Note: not using initializer list here with purpose. `set` is macro-dependent.
 		set(r_, g_, b_, a_);
 	}
 	
@@ -85,6 +84,7 @@ public:
 	/// <param name="index_">The index.</param>
 	/// <returns>Value of channel with specified index by value.</returns>
 	constexpr ValueType operator[](SizeType const index_) const {
+		assert(index_ <= 3);
 		switch (index_) {
 		case 0: { return r; break; }
 		case 1: { return g; break; }
@@ -99,6 +99,7 @@ public:
 	/// <param name="index_">The index.</param>
 	/// <returns>Value of channel with specified index by ref.</returns>
 	constexpr ValueType& operator[](SizeType const index_) {
+		assert(index_ <= 3);
 		switch (index_) {
 		case 0: { return r; break; }
 		case 1: { return g; break; }
@@ -196,7 +197,7 @@ public:
 		ColorSchemeRGBA result;
 
 		for (std::size_t i = 0; i < NumberOfChannels; i++) {
-			result[i] = (this->operator[](i) * (1.0 - alpha_) + avg[i] * alpha_);
+			result[i] = (this->operator[i] * (1.0 - alpha_) + avg[i] * alpha_);
 		}
 		return result;
 	}
@@ -218,7 +219,7 @@ public:
 		ColorSchemeRGBA result;
 
 		for (std::size_t i = 0; i < NumberOfChannels; i++) {
-			result[i] = (this->operator[](i) * (1.0 - alpha_) + avg[i] * alpha_);
+			result[i] = (this->operator[i] * (1.0 - alpha_) + avg[i] * alpha_);
 		}
 		return result;
 	}
